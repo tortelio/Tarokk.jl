@@ -115,7 +115,7 @@ using Random: shuffle
 
 struct Deck
     cards::Vector{<: Card}
-    Deck(cards = CARDS) = new(cards)
+    Deck(cards = deepcopy(CARDS)) = new(cards)
 end
 
 length(deck::Deck)::Integer = length(deck.cards)
@@ -136,8 +136,8 @@ take!(deck::Deck, n::Integer = 1) = [popfirst!(deck) for _ in 1:n]
 
 shuffle!(deck::Deck)::Deck = (shuffle!(deck.cards); deck)
 
-function rand(::Type{Deck})::Deck
-    return Deck(shuffle(CARDS))
+function rand(::Type{Deck}, cards::Vector{<: Card} = deepcopy(CARDS))::Deck
+    return Deck(shuffle(cards))
 end
 
 end # module

@@ -26,16 +26,7 @@ using Tarokk.Accessories: Deck, shuffle!, cut!, append!, take!
         # Phase 2 -- deal
         users = Dict(user => Card[] for user in 1:4)
 
-        # Phase 2.1 -- dealing 4 cards for all 4 players
-        for user in 1:4
-            let cards = take!(deck, 4)
-                @test cards isa Vector{<: Card}
-                @test length(cards) == 4
-                append!(users[user], cards)
-            end
-        end
-
-        # Phase 2.2 -- dealing 5 cards for all 4 players
+        # Phase 2.1 -- dealing 5 cards for all 4 players
         for user in 1:4
             let cards = take!(deck, 5)
                 @test cards isa Vector{<: Card}
@@ -44,13 +35,20 @@ using Tarokk.Accessories: Deck, shuffle!, cut!, append!, take!
             end
         end
 
-        # Phase 2.3 -- dealing 6 cards to talon
+        # Phase 2.2 -- dealing 6 cards to talon
         talon = take!(deck, 6)
         @test talon isa Vector{<: Card}
         @test length(talon) == 6
 
-        @test isempty(deck)
+        # Phase 2.3 -- dealing 4 cards for all 4 players
+        for user in 1:4
+            let cards = take!(deck, 4)
+                @test cards isa Vector{<: Card}
+                @test length(cards) == 4
+                append!(users[user], cards)
+            end
+        end
 
-        @info "Dealt" users talon
+        @test isempty(deck)
     end
 end
